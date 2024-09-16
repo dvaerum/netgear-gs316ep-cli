@@ -2,7 +2,6 @@ import re
 from enum import Enum
 from typing import Dict, NamedTuple, List, Any
 
-import requests
 from bs4 import BeautifulSoup, Tag
 
 from .client import Client

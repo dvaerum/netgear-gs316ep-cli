@@ -1,3 +1,4 @@
+import argparse
 import io
 import re
 from datetime import timedelta
@@ -10,6 +11,11 @@ from bs4 import BeautifulSoup
 
 from .client import Client
 from .misc import bad_request
+
+
+def sub_cmd_update(client: Client, _args: argparse.Namespace):
+    result = update(client)
+    print(result)
 
 
 def _version2int(version: str) -> List[int]:

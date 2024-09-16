@@ -2,6 +2,7 @@ import argparse
 from typing import List
 
 from .client import Client
+from .misc import convert_list_of_ports_to_str
 
 
 def sub_cmd_poe(client: Client, _args: argparse.Namespace):
@@ -12,10 +13,7 @@ def sub_cmd_poe(client: Client, _args: argparse.Namespace):
 
 
 def power_cycle_ports(client: Client, ports: List[int]):
-    poe_port = "".join([
-        "1" if port in ports else "0"
-        for port in list(range(1,16))
-    ])
+    poe_port = convert_list_of_ports_to_str(ports, include_port_16=False)
 
     resp = client.post("/iss/specific/poePortConf.html", data={
         "TYPE": "resetPoe",

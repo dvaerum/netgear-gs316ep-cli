@@ -1,15 +1,10 @@
 import argparse
 
 from lib.client import Client
-from lib.firmware import update
+from lib.firmware import sub_cmd_update
 from lib.vlan import set_vlan_mode, ModeVLAN, set_vlans, AccessVLAN
 from lib.poe import sub_cmd_poe
 from os import environ
-
-
-def sub_cmd_update(client: Client, _args: argparse.Namespace):
-    result = update(client)
-    print(result)
 
 
 def sub_cmd_vlan(client: Client, args: argparse.Namespace):
