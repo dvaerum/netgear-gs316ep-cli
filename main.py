@@ -2,8 +2,10 @@ import argparse
 
 from lib.client import Client
 from lib.firmware import sub_cmd_update
+from lib.misc import switch_port_iter
 from lib.vlan import set_vlan_mode, ModeVLAN, set_vlans, AccessVLAN
 from lib.poe import sub_cmd_poe
+from lib.mirror_port import sub_cmd_mirror_port
 from os import environ
 
 
@@ -103,9 +105,23 @@ def get_args() -> argparse.Namespace:
     parser_poe = sub_command.add_parser('poe', help="Configure PoE")
     parser_poe.add_argument("--power-cycle-ports", "--reset",
                             dest="power_cycle_ports", type=int, required=False, default=[],
-                            nargs="+", choices=list(range(1,16)),
+                            nargs="+", choices=list(switch_port_iter(include_port_16=False)),
                             help="List the port(s) to power cycle")
-    parser_poe.set_defaults(func=sub_cmd_poe)
+
+
+    parser_poe = sub_command.add_parser('mirror-port', help="Configure PoE")
+    parser_poe.add_argument("--disable",
+                            dest="mirror_port_disable", action="store_true", required=False, default=False,
+                            help="Disable port mirroring")
+    parser_poe.add_argument("--src-ports",
+                            dest="mirror_port_src_ports", type=int, required=False, default=[],
+                            nargs="+", choices=list(switch_port_iter()),
+                            help="List the port(s) to mirror")
+    parser_poe.add_argument("--dest-port",
+                            dest="mirror_port_dest_port", type=int, required=False, default=None,
+                            choices=list(switch_port_iter()),
+                            help="The port to mirror to")
+    parser_poe.set_defaults(func=sub_cmd_mirror_port)
 
 
     return parser.parse_args()
