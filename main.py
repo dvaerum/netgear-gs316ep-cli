@@ -107,6 +107,7 @@ def get_args() -> argparse.Namespace:
                             dest="power_cycle_ports", type=int, required=False, default=[],
                             nargs="+", choices=list(switch_port_iter(include_port_16=False)),
                             help="List the port(s) to power cycle")
+    parser_poe.set_defaults(func=sub_cmd_poe)
 
 
     parser_poe = sub_command.add_parser('mirror-port', help="Configure PoE")
