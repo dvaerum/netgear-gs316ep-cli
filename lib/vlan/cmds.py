@@ -16,3 +16,10 @@ def sub_cmd_vlan(client: Client, args: argparse.Namespace):
         vlans = _parse_vlan_arguments(args.vlan_set)
         result = set_vlans(client=client, vlans=vlans)
         print(result)
+
+    if args.vlan_get == "info":
+        result = get_vlan_info(client)
+        print(result)
+    elif args.vlan_get == "command":
+        result = get_vlan_command(client)
+        print(result)

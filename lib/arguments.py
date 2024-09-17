@@ -41,6 +41,10 @@ def get_args() -> argparse.Namespace:
         help="Defined the vlan config. The format is: "
              "<VLAN_ID>:<VLAN_NAME>@<PORT_NO>:<tagged|untagged|excluded>,[<PORT_NO>:<tagged|untagged|excluded>] "
              "[<VLAN_ID>:<VLAN_NAME>@<PORT_NO>:<tagged|untagged|excluded>[,<PORT_NO>:<tagged|untagged|excluded>]]")
+    parser_vlan_group.add_argument("--get",
+        dest="vlan_get", type=str, required=False,
+        default="info", choices=["info", "command"],
+        help="Get VLAN config from the switch as info or a command line argument")
     parser_vlan.set_defaults(func=sub_cmd_vlan)
 
 
