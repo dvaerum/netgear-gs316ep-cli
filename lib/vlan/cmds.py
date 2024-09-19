@@ -11,15 +11,19 @@ from .set_mode import set_vlan_mode
 def sub_cmd_vlan(client: Client, args: argparse.Namespace):
     if args.vlan_mode:
         set_vlan_mode(client, ModeVLAN(args.mode))
+        exit(0)
 
     if args.vlan_set:
         vlans = _parse_vlan_arguments(args.vlan_set)
         result = set_vlans(client=client, vlans=vlans)
         print(result)
+        exit(0)
 
     if args.vlan_get == "info":
         result = get_vlan_info(client)
         print(result)
+        exit(0)
     elif args.vlan_get == "command":
         result = get_vlan_command(client)
         print(result)
+        exit(0)

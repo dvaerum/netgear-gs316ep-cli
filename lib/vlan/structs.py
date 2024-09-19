@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, NamedTuple, List
+from typing import Dict, NamedTuple, List, Set
 
 from ..misc import switch_port_iter
 
@@ -17,6 +17,9 @@ class AccessVLAN(int, Enum):
     untagged = 2
     excluded = 3
 
+    def __repr__(self):
+        return f"{self.name}"
+
 
 class ObjVLAN(NamedTuple):
     name: str
@@ -27,6 +30,14 @@ class ObjVLAN(NamedTuple):
             self.ports_access.get(index, AccessVLAN.excluded).value.__str__()
             for index in switch_port_iter()
         ])
+
+    def filter_out_access_states(self, access_states: Set[AccessVLAN]) -> "ObjVLAN":
+        result = {
+            port_no: access
+            for port_no, access in self.ports_access.items()
+            if access not in access_states
+        }
+        return ObjVLAN(name=self.name, ports_access=result)
 
 class MapPort2UntaggedVLAN(NamedTuple):
     select_vlan_id: int

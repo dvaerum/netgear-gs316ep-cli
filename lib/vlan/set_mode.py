@@ -1,3 +1,4 @@
+import pprint
 from bs4 import BeautifulSoup
 
 from .structs import ModeVLAN
@@ -42,7 +43,8 @@ def set_vlan_mode(client: Client, mode: ModeVLAN | str):
     if new_vlan_mode != mode:
         bad_request(resp)
 
-    return {
+    result = {
         "status_code": 0, "status": f"The mode is already: {mode.value}",
         "old_mode": current_vlan_mode, "new_mode": new_vlan_mode,
     }
+    return pprint.pformat(result, indent=4)

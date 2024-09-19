@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from .helper_functions import _get_vlans_from_html_code
 from .structs import TYPE_VLANS, AccessVLAN
 from ..client import Client
@@ -23,8 +21,6 @@ def get_vlan_info(client: Client) -> str:
                 table[port_no][AccessVLAN.untagged] = vlan_id
             elif access == AccessVLAN.tagged:
                 table[port_no][AccessVLAN.tagged].append(f"{vlan_id:>4}")
-
-    pprint(table)
 
     result = "Port No | VLAN Untagged | VLAN Tagged\n"
     result += "--------|---------------|-------------\n"

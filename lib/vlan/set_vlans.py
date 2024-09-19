@@ -1,3 +1,4 @@
+import pprint
 import re
 
 from .get_vlans import get_vlans
@@ -126,9 +127,9 @@ def set_vlans(client: Client, vlans = TYPE_VLANS):
 
     result["status_code"] = status_code
     result["status"] = "Updated VLANs on the switch"
-    result["old_vlans"] = current_vlans
-    result["new_vlans"] = new_vlans
-    return result
+    result["old_vlans"] = {vlan_id: vlan_obj.filter_out_access_states({AccessVLAN.excluded}) for vlan_id, vlan_obj in current_vlans.items()}
+    result["new_vlans"] = {vlan_id: vlan_obj.filter_out_access_states({AccessVLAN.excluded}) for vlan_id, vlan_obj in new_vlans.items()}
+    return pprint.pformat(result, indent=4)
 
 
 def remove_vlan(client: Client, vlan_id):
